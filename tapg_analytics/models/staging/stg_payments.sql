@@ -1,0 +1,7 @@
+select
+    ORDER_ID,
+    PAYMENT_SEQUENTIAL,
+    PAYMENT_TYPE,
+    PAYMENT_INSTALLMENTS,
+    PAYMENT_VALUE
+from {{ source('TAPG_DB','PAYMENTS') }}
