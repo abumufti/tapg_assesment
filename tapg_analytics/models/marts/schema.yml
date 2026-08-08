@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: fct_sales
+    columns:
+      - name: customer_id
+        description: Foreign key to the dim_customer table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_id
+      - name: product_id
+        description: Foreign key to the dim_product table
+        tests:
+          - relationships:
+              to: ref('dim_product')
+              field: product_id
+      - name: date_id
+        description: Foreign key to the dim_date table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_id

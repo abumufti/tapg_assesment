@@ -1,0 +1,10 @@
+tapg_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      role: ACCOUNTADMIN
+      warehouse: TAPG_WH
+      database: TAPG_DB
+      schema: TAPG_SCHEMA
+      threads: 8

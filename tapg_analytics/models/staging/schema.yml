@@ -1,0 +1,71 @@
+version: 2
+
+sources:
+  - name: TAPG_DB
+    schema: TAPG_SCHEMA
+    tables:
+      - name: CUSTOMERS
+      - name: ORDERS
+      - name: ORDER_ITEMS
+      - name: PAYMENTS
+      - name: PRODUCTS
+models:
+  - name: stg_customers
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_unique_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Foreign key to the stg_customers table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_status
+        tests:
+          - accepted_values:
+              values: ['invoiced', 'processing', 'delivered', 'created', 'unavailable','canceled','shipped','approved']
+  - name: stg_products
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+  - name: stg_payments
+    columns:
+      - name: order_id
+        description: Foreign key to the stg_orders table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+  - name: stg_order_items
+    columns:
+      - name: order_id
+        description: Foreign key to the stg_orders table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: product_id
+        description: Foreign key to the stg_products table
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
+      
