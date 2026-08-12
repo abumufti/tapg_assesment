@@ -1,6 +1,6 @@
 {{ config(
     materialized='table',
-    cluster_by=['order_date']
+    cluster_by=['purchase_date']
 ) }}
 
 with daily_revenue as (
@@ -10,7 +10,7 @@ with daily_revenue as (
 ),
 z_scores AS (
 SELECT
-    purchase_date AS order_date,
+    purchase_date,
     revenue,
     AVG(revenue) OVER () as avg_revenue,
     (revenue - AVG(revenue) OVER ())/ STDDEV(revenue) OVER () AS z_score
