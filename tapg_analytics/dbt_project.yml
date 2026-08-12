@@ -19,4 +19,6 @@ models:
     staging:
       +materialized: view
     marts:
-      +materialized: table
+      +materialized: dynamic_table
+      +snowflake_warehouse: tapg_wh
+      +target_lag: '1 minutes'
