@@ -11,14 +11,22 @@ Dengan cara ini, data pada table selalu update mengikuti perubahan data yang ter
 
 Saya terapkan cluster key pada kolom purchase_date pada tabel fct_sales, daily_revenue, dan z_scores (lihat file fct_sales.sql, daily_revenue.sql, dan z_scores.sql pada model).
 
-Sayangnya waktu yang diberikan tidak memungkinkan saya untuk eksplorasi lebih dalam lagi dalam peningkatan kinerja melalui Snowflake. Saran dari hasil pencarian literasi terkait kasus peningkatan kinerja ini dapat juga dicoba :
-- Incremental Model
-- Materialized View
-- Incremental Anomaly Detection
-- Warehouse Scaling
-- Caching
+Apabila kedua langkah di atas belum menjadi solusi optimasi apabila volume data meningkat 100x lipat. Saran dari hasil pencarian literasi terkait kasus peningkatan kinerja ini patut dicoba :
 
-Saya akan uraikan dari pemerian di atas setelah diterima sebagai Data Engineer Section Head.
+- Incremental Model
+Gunakan materialisasi incremental sehingga hanya data baru yang diproses setiap kali menjalankan dbt.
+
+- Materialized View
+Simpan hasil agregasi revenue harian sebagai materialized view agar query deteksi anomali tidak perlu menghitung ulang seluruh transaksi.
+
+- Incremental Anomaly Detection
+Hitung Z-score hanya untuk data baru, bukan mengulang seluruh histori setiap eksekusi.
+
+- Warehouse Scaling
+Manfaatkan kemampuan Snowflake untuk meningkatkan ukuran warehouse (misalnya dari Small ke Medium/Large) atau menggunakan multi-cluster warehouse saat beban kerja meningkat.
+
+- Caching
+Manfaatkan result cache dan warehouse cache bawaan Snowflake agar query yang sama dapat dieksekusi lebih cepat tanpa membaca ulang data.
 
 Terima kasih.
 Salam
